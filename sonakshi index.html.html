@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Sonakshi 🎂</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #2c003e, #1a1a40);
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    #countdown, #clock {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    #message {
+      font-size: 2em;
+      display: none;
+      margin-top: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .photos {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .photos img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    #panda {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      animation: bounceAround 10s infinite linear;
+      display: none;
+      z-index: 10;
+    }
+
+    @keyframes bounceAround {
+      0%   { top: 10%; left: 10%; }
+      25%  { top: 20%; left: 80%; }
+      50%  { top: 70%; left: 60%; }
+      75%  { top: 50%; left: 20%; }
+      100% { top: 10%; left: 10%; }
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Red_Heart.svg/32px-Red_Heart.svg.png') no-repeat center;
+      background-size: contain;
+      animation: floatUp 5s infinite ease-in;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-600px) scale(1.5); opacity: 0; }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png');
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* 💌 Flip Card */
+    .card {
+      margin: 30px auto;
+      width: 300px;
+      height: 180px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+    .card .front, .card .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      line-height: 180px;
+      font-size: 1.2em;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      background: #ff69b4;
+      color: #fff;
+    }
+    .card .front {
+      background: #ff69b4;
+    }
+    .card .back {
+      background: #ff1493;
+      transform: rotateY(180deg);
+    }
+    .card.flipped .front {
+      transform: rotateY(180deg);
+    }
+    .card.flipped .back {
+      transform: rotateY(360deg);
+    }
+  </style>
+</head>
+<body>
+  <h1>Countdown to Your Birthday 🎈</h1>
+  <div id="countdown"></div>
+  <div id="clock"></div>
+  <div id="message">🎉 Happy Birthday Sonakshi! You are loved beyond words 💖</div>
+
+  <audio id="birthdaySong" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+  <img id="panda" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Giant_Panda_2004-03-2.jpg/120px-Giant_Panda_2004-03-2.jpg" alt="Cute Panda">
+
+  <div class="photos">
+    <img src="C:\Users\shukl\OneDrive\Pictures\IMG-20250802-WA0011.jpg" alt="Photo 1">
+    <img src="C:\Users\shukl\OneDrive\Pictures\IMG-20250802-WA0012.jpg" alt="Photo 2">
+    <img src="C:\Users\shukl\OneDrive\Pictures\IMG-20250802-WA0013.jpg" alt="Photo 3">
+    <img src="C:\Users\shukl\OneDrive\Pictures\IMG-20250802-WA0014.jpg" alt="Photo 4">
+
+  </div>
+
+  <!-- 💌 Birthday Card -->
+  <div class="card" onclick="this.classList.toggle('flipped')">
+    <div class="front">Tap to Reveal 🎁</div>
+    <div class="back">You're one in a billion, Sonakshi 🌟</div>
+  </div>
+
+  <div class="sparkle"></div>
+  <div id="hearts"></div>
+  <canvas id="fireworks"></canvas>
+
+  <!-- 🎊 Confetti & Fireworks -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fireworks-js/dist/index.umd.js"></script>
+
+  <script>
+    const targetDate = new Date("2025-08-07T00:00:00");
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+
+      document.getElementById("clock").textContent = now.toLocaleTimeString();
+
+      if (diff <= 0) {
+        document.getElementById("countdown").style.display = "none";
+        document.getElementById("message").style.display = "block";
+        document.getElementById("birthdaySong").play();
+        document.getElementById("panda").style.display = "block";
+
+        confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
+
+        for (let i = 0; i < 30; i++) {
+          const heart = document.createElement("div");
+          heart.className = "heart";
+          heart.style.left = Math.random() * window.innerWidth + "px";
+          heart.style.top = Math.random() * window.innerHeight + "px";
+          heart.style.animationDelay = (Math.random() * 5) + "s";
+          document.getElementById("hearts").appendChild(heart);
+        }
+
+        new Fireworks({
+          target: document.getElementById('fireworks'),
+          hue: { min: 0, max: 360 },
+          rocketsPoint: 50,
+          delay: { min: 15, max: 30 },
+          speed: 3,
+          acceleration: 1.05,
+          friction: 0.95
+        }).start();
+
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("countdown").innerHTML =
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
